@@ -13,7 +13,8 @@ export default function Login({ onLogin }: LoginProps) {
   // Check URL parameter for auto-login
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (params.get('source') === 'janggostory') {
+    const referrer = document.referrer || '';
+    if (params.get('source') === 'janggostory' || referrer.includes('app-janggostory-com.vercel.app')) {
       onLogin(); // Auto login if coming from janggostory
     }
   }, [onLogin]);
