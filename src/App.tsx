@@ -6,10 +6,12 @@ import ContractPreview from './components/ContractPreview';
 import CompanyContractForm from './components/CompanyContractForm';
 import CompanyContractPreview from './components/CompanyContractPreview';
 import Home from './components/Home';
+import Login from './components/Login';
 import { ContractData, CompanyContractData } from './types';
 import { FileText, ChevronLeft, Download, Mail, X, CheckCircle2, Loader2 } from 'lucide-react';
 
 export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentView, setCurrentView] = useState<'home' | 'instructor' | 'company'>('home');
   
   const initialStamp = typeof window !== 'undefined' ? localStorage.getItem('janggoStamp') : null;
@@ -377,6 +379,10 @@ export default function App() {
       setEmailStatus('idle');
     }
   };
+
+  if (!isAuthenticated) {
+    return <Login onLogin={() => setIsAuthenticated(true)} />;
+  }
 
   if (currentView === 'home') {
     return <Home onSelect={(type) => {
