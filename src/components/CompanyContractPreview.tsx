@@ -2,9 +2,9 @@ import React from 'react';
 import { CompanyContractData } from '../types';
 
 export default function CompanyContractPreview({ data }: { data: CompanyContractData }) {
-  const highlight = (text: string, placeholder: string) => {
+  const highlight = (text: string, placeholder: string, noUnderline: boolean = false) => {
     if (!text) return <span className="text-blue-500 bg-blue-50 border-b border-blue-200 px-1 font-semibold">{placeholder}</span>;
-    return <span className="font-bold border-b border-gray-800 px-1 text-black bg-yellow-100/50">{text}</span>;
+    return <span className={`font-bold px-1 text-black bg-yellow-100/50 ${noUnderline ? '' : 'border-b border-gray-800'}`}>{text}</span>;
   };
 
   const formatTimeWindow = (timeStr: string) => {
@@ -157,11 +157,12 @@ export default function CompanyContractPreview({ data }: { data: CompanyContract
             <div className="w-full md:w-1/2 md:pr-4 md:border-r-2 border-gray-100 min-h-[160px]">
                <h3 className="font-bold text-2xl mb-6 text-black tracking-widest text-center">“갑”</h3>
                <div className="space-y-4 relative px-2">
-                 <div className="flex pt-2"><span className="w-28 shrink-0 font-bold text-black">사업자번호 :</span> <span className="flex-1 break-keep">{highlight(data.companyBusinessNumber, "000-00-00000")}</span></div>
-                 <div className="flex pt-2"><span className="w-28 shrink-0 font-bold text-black">주 소 :</span> <span className="flex-1 break-keep">{highlight(data.companyAddress, "상세주소")}</span></div>
+                 <div className="flex pt-2"><span className="w-28 shrink-0 font-bold text-black">기 관 명 :</span> <span className="flex-1 break-keep">{highlight(data.centerName, "기관명", true)}</span></div>
+                 <div className="flex pt-2"><span className="w-28 shrink-0 font-bold text-black">사업자번호 :</span> <span className="flex-1 break-keep">{highlight(data.companyBusinessNumber, "000-00-00000", true)}</span></div>
+                 <div className="flex pt-2"><span className="w-28 shrink-0 font-bold text-black">주 소 :</span> <span className="flex-1 break-keep">{highlight(data.companyAddress, "상세주소", true)}</span></div>
                  <div className="flex items-center z-10 relative pt-2">
                    <span className="w-28 shrink-0 font-bold text-black">대 표 :</span> 
-                   {highlight(data.companyRepresentative, "대표자명")}
+                   {highlight(data.companyRepresentative, "대표자명", true)}
                    <div className="ml-4 relative flex items-center justify-center">
                      <span>(인)</span>
                      {data.companySignature && (
@@ -171,8 +172,8 @@ export default function CompanyContractPreview({ data }: { data: CompanyContract
                     )}
                    </div>
                  </div>
-                 <div className="flex pt-2"><span className="w-28 shrink-0 font-bold text-black">연 락 처 :</span> <span className="flex-1 break-keep">{highlight(data.companyContact, "연락처")}</span></div>
-                 <div className="flex pt-2"><span className="w-28 shrink-0 font-bold text-black">이메일 :</span> <span className="flex-1 break-keep">{highlight(data.companyEmail, "이메일")}</span></div>
+                 <div className="flex pt-2"><span className="w-28 shrink-0 font-bold text-black">연 락 처 :</span> <span className="flex-1 break-keep">{highlight(data.companyContact, "연락처", true)}</span></div>
+                 <div className="flex pt-2"><span className="w-28 shrink-0 font-bold text-black">이메일 :</span> <span className="flex-1 break-keep">{highlight(data.companyEmail, "이메일", true)}</span></div>
                </div>
             </div>
 

@@ -276,6 +276,9 @@ export default function App() {
         style: { margin: '0', transform: 'none' }
       };
 
+      const timestampHex = new Date().getTime().toString(16).toUpperCase();
+      let currentPageNum = 1;
+
       for (let i = 0; i < pages.length; i++) {
         const pageElement = pages[i] as HTMLElement;
         pageElement.style.margin = '0';
@@ -301,6 +304,14 @@ export default function App() {
         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
         const fileType = dataUrl.startsWith('data:image/jpeg') ? 'JPEG' : 'PNG';
         pdf.addImage(dataUrl, fileType, 0, 0, pdfWidth, pdfHeight);
+
+        // 시리얼 번호는 작게 우측 하단에 추가 (배경 없이 자연스럽게)
+        const serial = `S/N: JG-${timestampHex}-${currentPageNum}`;
+        pdf.setFontSize(8);
+        pdf.setTextColor(150, 150, 150);
+        pdf.text(serial, pdfWidth - 53, pageHeight - 5);
+
+        currentPageNum++;
       }
 
       // Base64 문자열 추출 (data:application/pdf;filename=generated.pdf;base64, 이후의 값)

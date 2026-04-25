@@ -81,26 +81,6 @@ export default function CompanyContractForm({ data, onChange }: Props) {
     if (name === 'hourlyRate') {
       const numbers = value.replace(/[^\d]/g, '');
       value = numbers ? Number(numbers).toLocaleString('ko-KR') : '';
-    } else if (name === 'companyContact') {
-      const numbers = value.replace(/[^\d]/g, '');
-      if (numbers.startsWith('02')) {
-        if (numbers.length > 2 && numbers.length <= 5) value = `${numbers.slice(0, 2)}-${numbers.slice(2)}`;
-        else if (numbers.length > 5) value = `${numbers.slice(0, 2)}-${numbers.slice(2, 5)}-${numbers.slice(5, 9)}`;
-        else value = numbers;
-      } else {
-        if (numbers.length > 3 && numbers.length <= 6) value = `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
-        else if (numbers.length > 6) value = `${numbers.slice(0, 3)}-${numbers.slice(3, 7)}-${numbers.slice(7, 11)}`;
-        else value = numbers;
-      }
-    } else if (name === 'companyBusinessNumber') {
-      const numbers = value.replace(/[^\d]/g, '');
-      if (numbers.length > 3 && numbers.length <= 5) {
-        value = `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
-      } else if (numbers.length > 5) {
-        value = `${numbers.slice(0, 3)}-${numbers.slice(3, 5)}-${numbers.slice(5, 10)}`;
-      } else {
-        value = numbers;
-      }
     } else if (name === 'contractStartDate' && value) {
       const date = new Date(value);
       if (!isNaN(date.getTime())) {
@@ -213,24 +193,24 @@ export default function CompanyContractForm({ data, onChange }: Props) {
               <input type="text" name="centerName" value={data.centerName} onChange={handleChange} className="block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2.5" placeholder="OO요양원" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">사업자번호</label>
-              <input type="text" name="companyBusinessNumber" value={data.companyBusinessNumber} onChange={handleChange} maxLength={12} className="block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2.5" placeholder="123-45-67890" />
+              <label className="block text-sm font-medium text-gray-700 mb-1">사업자번호 <span className="text-gray-400 font-normal text-xs">(선택)</span></label>
+              <input type="text" name="companyBusinessNumber" value={data.companyBusinessNumber} onChange={handleChange} className="block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2.5" placeholder="123-45-67890" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">대표자명</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">대표자명 <span className="text-gray-400 font-normal text-xs">(선택)</span></label>
               <input type="text" name="companyRepresentative" value={data.companyRepresentative} onChange={handleChange} className="block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2.5" placeholder="김대표" />
             </div>
             <div className="sm:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">상세 주소</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">상세 주소 <span className="text-gray-400 font-normal text-xs">(선택)</span></label>
               <input type="text" name="companyAddress" value={data.companyAddress} onChange={handleChange} className="block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2.5" placeholder="충남 천안시 서북구 늘푸른 1길20, 3층" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">연락처</label>
-              <input type="text" name="companyContact" value={data.companyContact} onChange={handleChange} maxLength={13} className="block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2.5" placeholder="02-123-4567" />
+              <label className="block text-sm font-medium text-gray-700 mb-1">연락처 <span className="text-gray-400 font-normal text-xs">(선택)</span></label>
+              <input type="text" name="companyContact" value={data.companyContact} onChange={handleChange} className="block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2.5" placeholder="02-123-4567" />
             </div>
             <div className="sm:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">이메일 :</label>
-              <input type="email" name="companyEmail" value={data.companyEmail} onChange={handleChange} className="block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2.5" placeholder="example@email.com" />
+              <label className="block text-sm font-medium text-gray-700 mb-1">이메일 <span className="text-gray-400 font-normal text-xs">(선택)</span></label>
+              <input type="text" name="companyEmail" value={data.companyEmail} onChange={handleChange} className="block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2.5" placeholder="example@email.com" />
             </div>
           </div>
         </section>

@@ -2,9 +2,9 @@ import React from 'react';
 import { ContractData } from '../types';
 
 export default function ContractPreview({data}: {data: ContractData}) {
-  const highlight = (text: string, placeholder: string) => {
+  const highlight = (text: string, placeholder: string, noUnderline: boolean = false) => {
     if (!text) return <span className="bg-yellow-50 text-indigo-800 px-2 min-w-[3em] text-center border-b border-indigo-400 border-dashed">{placeholder}</span>;
-    return <span className="font-bold border-b border-black px-1">{text}</span>;
+    return <span className={`font-bold px-1 ${noUnderline ? '' : 'border-b border-black'}`}>{text}</span>;
   };
 
   const PageWrapper = ({ children, className = '' }: { children: React.ReactNode, className?: string }) => (
@@ -229,7 +229,7 @@ export default function ContractPreview({data}: {data: ContractData}) {
                <div className="space-y-4 relative px-2">
                  <div className="flex items-center z-10 relative">
                    <span className="w-32 shrink-0 font-bold text-black">이 름 :</span> 
-                   {highlight(data.instructorName, "이름")}
+                   {highlight(data.instructorName, "이름", true)}
                    <div className="ml-4 relative flex items-center justify-center">
                      <span>(인)</span>
                      {data.instructorSignature && (
@@ -239,7 +239,7 @@ export default function ContractPreview({data}: {data: ContractData}) {
                     )}
                    </div>
                  </div>
-                 <div className="flex pt-2"><span className="w-32 shrink-0 font-bold text-black">주 소 :</span> <span className="flex-1 break-keep">{highlight(data.instructorAddress, "주소정보입력")}</span></div>
+                 <div className="flex pt-2"><span className="w-32 shrink-0 font-bold text-black">주 소 :</span> <span className="flex-1 break-keep">{highlight(data.instructorAddress, "주소정보입력", true)}</span></div>
                  <div className="flex pt-2"><span className="w-32 shrink-0 font-bold text-black">연 락 처 :</span> {highlight(data.instructorContact, "010-0000-0000")}</div>
                  <div className="flex pt-2"><span className="w-32 shrink-0 font-bold text-black">주민등록번호 :</span> {highlight(data.instructorRrn, "YYMMDD-XXXXXXX")}</div>
                </div>

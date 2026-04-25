@@ -43,17 +43,6 @@ export default function ContractForm({data, onChange}: Props) {
       } else {
         value = `${numbers.slice(0, 6)}-${numbers.slice(6, 13)}`;
       }
-    } else if (name === 'instructorContact') {
-      const numbers = value.replace(/[^\d]/g, '');
-      if (numbers.startsWith('02')) {
-        if (numbers.length > 2 && numbers.length <= 5) value = `${numbers.slice(0, 2)}-${numbers.slice(2)}`;
-        else if (numbers.length > 5) value = `${numbers.slice(0, 2)}-${numbers.slice(2, 5)}-${numbers.slice(5, 9)}`;
-        else value = numbers;
-      } else {
-        if (numbers.length > 3 && numbers.length <= 6) value = `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
-        else if (numbers.length > 6) value = `${numbers.slice(0, 3)}-${numbers.slice(3, 7)}-${numbers.slice(7, 11)}`;
-        else value = numbers;
-      }
     } else if (name === 'hourlyRate' || name === 'outerHourlyRate') {
       const numbers = value.replace(/[^\d]/g, '');
       value = numbers ? Number(numbers).toLocaleString('ko-KR') : '';
@@ -180,7 +169,7 @@ export default function ContractForm({data, onChange}: Props) {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">연락처</label>
-              <input type="text" name="instructorContact" value={data.instructorContact} onChange={handleChange} maxLength={13} className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2.5 border" placeholder="010-1234-5678" />
+              <input type="text" name="instructorContact" value={data.instructorContact} onChange={handleChange} className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2.5 border" placeholder="010-1234-5678" />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">주소</label>
