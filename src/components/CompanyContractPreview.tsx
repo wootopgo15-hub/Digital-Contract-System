@@ -38,13 +38,15 @@ export default function CompanyContractPreview({ data }: { data: CompanyContract
         return {
           address: '세종특별자치시 호려울로 29 702호',
           representative: '민동환',
-          contact: '010-6636-4667'
+          contact: '010-6636-4667',
+          email: 'sejong@janggostory.com'
         };
       case '평택':
         return {
           address: '경기 평택시 조개터로 25 16-2 한미아파트 상가동 2층',
           representative: '박소연',
-          contact: '010-8616-9952'
+          contact: '010-8616-9952',
+          email: 'pyeongtaek@janggostory.com'
         };
       case '천안':
       case '예산':
@@ -52,7 +54,8 @@ export default function CompanyContractPreview({ data }: { data: CompanyContract
         return {
           address: '충남 천안시 서북구 늘푸른1길 20, 3층',
           representative: '최유정',
-          contact: '010-8971-4304'
+          contact: '010-8971-4304',
+          email: 'janggo1983@naver.com'
         };
     }
   };
@@ -197,7 +200,7 @@ export default function CompanyContractPreview({ data }: { data: CompanyContract
                   </div>
                 </div>
                 <div className="flex"><span className="w-28 shrink-0 font-bold text-black">연 락 처 :</span> <span>{branchInfo.contact}</span></div>
-                <div className="flex"><span className="w-28 shrink-0 font-bold text-black">이 메 일 :</span> janggo1983@naver.com</div>
+                <div className="flex"><span className="w-28 shrink-0 font-bold text-black">이 메 일 :</span> <span>{branchInfo.email}</span></div>
               </div>
             </div>
           </div>

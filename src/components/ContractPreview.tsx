@@ -26,13 +26,15 @@ export default function ContractPreview({data}: {data: ContractData}) {
         return {
           address: '세종특별자치시 호려울로 29 702호',
           representative: '민동환',
-          contact: '010-6636-4667'
+          contact: '010-6636-4667',
+          email: 'sejong@janggostory.com'
         };
       case '평택':
         return {
           address: '경기 평택시 조개터로 25 16-2 한미아파트 상가동 2층',
           representative: '박소연',
-          contact: '010-8616-9952'
+          contact: '010-8616-9952',
+          email: 'pyeongtaek@janggostory.com'
         };
       case '천안':
       case '예산':
@@ -40,7 +42,8 @@ export default function ContractPreview({data}: {data: ContractData}) {
         return {
           address: '충남 천안시 서북구 늘푸른 1길 20, 3층',
           representative: '최유정',
-          contact: '010-8971-4304'
+          contact: '010-8971-4304',
+          email: 'janggo1983@naver.com'
         };
     }
   };
