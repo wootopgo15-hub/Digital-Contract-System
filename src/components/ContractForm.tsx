@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {ContractData} from '../types';
 import {SignaturePad} from './SignaturePad';
 import { Upload, Trash2 } from 'lucide-react';
@@ -9,6 +9,29 @@ interface Props {
 }
 
 export default function ContractForm({data, onChange}: Props) {
+  const [driveStamps, setDriveStamps] = useState<{name: string, base64: string}[]>([]);
+  const [isLoadingStamps, setIsLoadingStamps] = useState(false);
+
+  const fetchStampsFromDrive = async () => {
+    setIsLoadingStamps(true);
+    try {
+      // 이 URL은 이전에 제공해주신 업로드용 구글 앱스 스크립트입니다.
+      // 해당 스크립트에 doGet 함수(해당 폴더의 이미지들을 가져오는 기능)를 추가 배포해야 동작합니다.
+      const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby8KEbbIFicI5R7RQQqT46NykVPYLSzfl0JYqfsru0zEyNpDVhMBDdBW8C1S2946Acnow/exec";
+      const res = await fetch(GOOGLE_SCRIPT_URL);
+      const result = await res.json();
+      if (Array.isArray(result)) {
+        setDriveStamps(result);
+      } else {
+        alert("구글 드라이브에서 이미지를 가져올 수 없습니다. 구글 스크립트에 doGet 함수 설정이 필요합니다.");
+      }
+    } catch(e) {
+      alert("도장을 불러오는데 실패했습니다. (Failed to fetch)\n\n[해결방법]\n기존 배포하신 구글 스크립트 코드에 '해당 폴더의 이미지 목록을 반환하는 doGet 함수'를 추가한 후 '새 버전'으로 배포해주셔야 합니다.");
+    } finally {
+      setIsLoadingStamps(false);
+    }
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let {name, value} = e.target;
     let updates: Partial<ContractData> = {};
@@ -49,16 +72,48 @@ export default function ContractForm({data, onChange}: Props) {
     onChange({...data, ...updates, [name]: value});
   };
 
+  const compressImage = (file: File, callback: (base64: string) => void) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+        const MAX_SIZE = 800;
+        
+        if (width > height && width > MAX_SIZE) {
+          height *= MAX_SIZE / width;
+          width = MAX_SIZE;
+        } else if (height > MAX_SIZE) {
+          width *= MAX_SIZE / height;
+          height = MAX_SIZE;
+        }
+        
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+          callback(canvas.toDataURL(file.type || 'image/jpeg', 0.8));
+        } else {
+          callback(e.target?.result as string);
+        }
+      };
+      if (e.target?.result) {
+        img.src = e.target.result as string;
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleStampUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        onChange({...data, companyStamp: event.target?.result as string});
-      };
-      reader.readAsDataURL(file);
+      compressImage(file, (base64) => {
+        onChange({...data, companyStamp: base64});
+      });
     }
-    e.target.value = '';
   };
 
   return (
@@ -179,20 +234,74 @@ export default function ContractForm({data, onChange}: Props) {
           <h3 className="text-lg font-semibold border-b border-gray-200 pb-2">4. 서명 및 직인 등록 (자동 저장)</h3>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">본사(장고교육개발원) 직인 업로드 (PNG 투명 배경 권장)</label>
-            <p className="text-xs text-indigo-600 mb-3 font-medium">한 번 올려두시면 이 브라우저 기억장치에 저장되어 계속 재사용됩니다.</p>
+            <label className="block text-sm font-medium text-gray-700 mb-2">본사(장고교육개발원) 직인 선택 또는 업로드 (PNG 투명 배경 권장)</label>
+            <p className="text-xs text-indigo-600 mb-3 font-medium">한 번 선택/올려두시면 이 브라우저 기억장치에 저장되어 계속 재사용됩니다.</p>
+            
             {!data.companyStamp ? (
-              <div className="relative mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md bg-zinc-50 hover:bg-zinc-100 transition-colors cursor-pointer w-full overflow-hidden">
-                <input id="stamp-upload" name="stamp-upload" type="file" accept="image/*" className="absolute inset-0 z-50 w-full h-full opacity-0 cursor-pointer" onChange={handleStampUpload} />
-                <div className="space-y-1 text-center pointer-events-none">
-                  <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                  <div className="flex justify-center text-sm text-gray-600 mt-2">
-                    <span className="relative rounded-md font-medium text-indigo-600 hover:text-indigo-500 px-2 py-1">
-                      이미지 파일 선택
-                    </span>
-                  </div>
-                  <p className="text-xs text-gray-500">배경이 투명한 PNG 도장 파일 권장</p>
+              <div className="space-y-4">
+                <div className="grid grid-cols-3 gap-2">
+                  <button
+                    type="button"
+                    onClick={fetchStampsFromDrive}
+                    disabled={isLoadingStamps}
+                    className="col-span-3 mb-2 w-full flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    {isLoadingStamps ? '불러오는 중...' : '구글 드라이브(업체 계약서 폴더)에서 도장 이미지 불러오기'}
+                  </button>
+
+                  {driveStamps.length > 0 ? (
+                    driveStamps.map((stamp, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => onChange({...data, companyStamp: stamp.base64})}
+                        className="border-2 border-gray-200 rounded-md p-3 hover:border-indigo-500 focus:outline-none focus:border-indigo-500 transition-colors bg-white flex flex-col items-center justify-center min-h-[100px]"
+                      >
+                        <div className="w-16 h-16 relative flex items-center justify-center overflow-hidden mb-2">
+                          <img src={stamp.base64} alt={stamp.name} className="w-full h-full object-contain mix-blend-multiply" />
+                        </div>
+                        <span className="text-xs font-semibold text-gray-700 truncate w-full px-1">{stamp.name}</span>
+                      </button>
+                    ))
+                  ) : (
+                    [
+                      { name: '세종', file: '/세종도장.png' },
+                      { name: '천안', file: '/천안도장.png' },
+                      { name: '평택', file: '/평택도장.png' }
+                    ].map((stamp) => (
+                      <button
+                        key={stamp.name}
+                        type="button"
+                        onClick={() => onChange({...data, companyStamp: stamp.file})}
+                        className="border-2 border-gray-200 rounded-md p-3 hover:border-indigo-500 focus:outline-none focus:border-indigo-500 transition-colors bg-white flex flex-col items-center justify-center min-h-[100px]"
+                      >
+                        <div className="w-16 h-16 relative flex items-center justify-center overflow-hidden mb-2">
+                           <img src={stamp.file} alt={`${stamp.name} 도장`} className="w-full h-full object-contain mix-blend-multiply" />
+                        </div>
+                        <span className="text-xs font-semibold text-gray-700 whitespace-nowrap">{stamp.name} 직인 선택</span>
+                      </button>
+                    ))
+                  )}
                 </div>
+
+                <div className="relative flex items-center py-2">
+                  <div className="flex-grow border-t border-gray-300"></div>
+                  <span className="flex-shrink-0 mx-4 text-gray-400 text-sm">또는 직접 업로드</span>
+                  <div className="flex-grow border-t border-gray-300"></div>
+                </div>
+
+                <label className="relative flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md bg-zinc-50 hover:bg-zinc-100 transition-colors cursor-pointer w-full overflow-hidden">
+                  <input id="stamp-upload" name="stamp-upload" type="file" accept="image/jpeg, image/png, image/jpg, image/webp" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-50" onChange={handleStampUpload} />
+                  <div className="space-y-1 text-center pointer-events-none">
+                    <Upload className="mx-auto h-12 w-12 text-gray-400" />
+                    <div className="flex justify-center text-sm text-gray-600 mt-2">
+                      <span className="relative rounded-md font-medium text-indigo-600 hover:text-indigo-500 px-2 py-1">
+                        이미지 파일 선택
+                      </span>
+                    </div>
+                    <p className="text-xs text-gray-500">직접 파일에서 찾기</p>
+                  </div>
+                </label>
               </div>
             ) : (
                <div className="mt-1 relative border rounded-md p-4 flex justify-center items-center bg-zinc-50">
