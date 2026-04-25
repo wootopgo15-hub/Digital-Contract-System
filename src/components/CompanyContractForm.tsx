@@ -319,13 +319,13 @@ export default function CompanyContractForm({ data, onChange }: Props) {
           <div className="pt-2 border-t border-gray-100">
             <label className="block text-sm font-medium text-gray-700 mb-2">선택사항: 스캔본이나 기관장 명판/도장 이미지 업로드</label>
             <div className="flex items-center justify-center w-full">
-              <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-blue-50 hover:bg-blue-100 border-blue-200 transition-colors">
+              <label htmlFor="company-stamp-upload" className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-blue-50 hover:bg-blue-100 border-blue-200 transition-colors">
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   <Upload className="w-8 h-8 mb-3 text-blue-400" />
                   <p className="mb-2 text-sm text-blue-600 font-semibold">클릭하여 이미지 업로드</p>
                   <p className="text-xs text-blue-400">PNG, JPG (MAX. 2MB)</p>
                 </div>
-                <input type="file" className="hidden" accept="image/*" onChange={handleCompanyStampUpload} />
+                <input id="company-stamp-upload" type="file" className="sr-only" accept="image/*" onChange={handleCompanyStampUpload} />
               </label>
             </div>
             
@@ -381,13 +381,13 @@ export default function CompanyContractForm({ data, onChange }: Props) {
               </div>
             ) : (
               <div className="flex items-center justify-center w-full">
-                <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                <label htmlFor="janggo-stamp-upload-company" className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
                   <div className="flex flex-col items-center justify-center pt-5 pb-6">
                     <Upload className="w-8 h-8 mb-3 text-gray-400" />
                     <p className="mb-2 text-sm text-gray-500 font-semibold">클릭하여 이미지 업로드</p>
                     <p className="text-xs text-gray-500">PNG, JPG (MAX. 2MB)</p>
                   </div>
-                  <input type="file" className="hidden" accept="image/*" onChange={handleStampUpload} />
+                  <input id="janggo-stamp-upload-company" type="file" className="sr-only" accept="image/*" onChange={handleStampUpload} />
                 </label>
               </div>
             )}
