@@ -58,6 +58,7 @@ export default function ContractForm({data, onChange}: Props) {
       };
       reader.readAsDataURL(file);
     }
+    e.target.value = '';
   };
 
   return (
@@ -181,18 +182,18 @@ export default function ContractForm({data, onChange}: Props) {
             <label className="block text-sm font-medium text-gray-700 mb-2">본사(장고교육개발원) 직인 업로드 (PNG 투명 배경 권장)</label>
             <p className="text-xs text-indigo-600 mb-3 font-medium">한 번 올려두시면 이 브라우저 기억장치에 저장되어 계속 재사용됩니다.</p>
             {!data.companyStamp ? (
-              <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md bg-zinc-50 hover:bg-zinc-100 transition-colors">
+              <label htmlFor="stamp-upload" className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md bg-zinc-50 hover:bg-zinc-100 transition-colors cursor-pointer w-full">
                 <div className="space-y-1 text-center">
                   <Upload className="mx-auto h-12 w-12 text-gray-400" />
                   <div className="flex justify-center text-sm text-gray-600 mt-2">
-                    <label htmlFor="stamp-upload" className="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none px-2 py-1">
-                      <span>이미지 파일 선택</span>
-                      <input id="stamp-upload" name="stamp-upload" type="file" accept="image/*" className="sr-only" onChange={handleStampUpload} />
-                    </label>
+                    <span className="relative rounded-md font-medium text-indigo-600 hover:text-indigo-500 px-2 py-1">
+                      이미지 파일 선택
+                      <input id="stamp-upload" name="stamp-upload" type="file" accept="image/*" className="hidden" onChange={handleStampUpload} />
+                    </span>
                   </div>
                   <p className="text-xs text-gray-500">배경이 투명한 PNG 도장 파일 권장</p>
                 </div>
-              </div>
+              </label>
             ) : (
                <div className="mt-1 relative border rounded-md p-4 flex justify-center items-center bg-zinc-50">
                   <img src={data.companyStamp} alt="본사 직인" className="h-24 object-contain mix-blend-multiply" />

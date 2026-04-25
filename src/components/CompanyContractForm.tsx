@@ -105,6 +105,7 @@ export default function CompanyContractForm({ data, onChange }: Props) {
       };
       reader.readAsDataURL(file);
     }
+    e.target.value = '';
   };
 
   const handleCompanyStampUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -123,6 +124,7 @@ export default function CompanyContractForm({ data, onChange }: Props) {
       };
       reader.readAsDataURL(file);
     }
+    e.target.value = '';
   };
 
   return (
@@ -325,7 +327,7 @@ export default function CompanyContractForm({ data, onChange }: Props) {
                   <p className="mb-2 text-sm text-blue-600 font-semibold">클릭하여 이미지 업로드</p>
                   <p className="text-xs text-blue-400">PNG, JPG (MAX. 2MB)</p>
                 </div>
-                <input id="company-stamp-upload" type="file" className="sr-only" accept="image/*" onChange={handleCompanyStampUpload} />
+                <input id="company-stamp-upload" type="file" className="hidden" accept="image/*" onChange={handleCompanyStampUpload} />
               </label>
             </div>
             
@@ -387,7 +389,7 @@ export default function CompanyContractForm({ data, onChange }: Props) {
                     <p className="mb-2 text-sm text-gray-500 font-semibold">클릭하여 이미지 업로드</p>
                     <p className="text-xs text-gray-500">PNG, JPG (MAX. 2MB)</p>
                   </div>
-                  <input id="janggo-stamp-upload-company" type="file" className="sr-only" accept="image/*" onChange={handleStampUpload} />
+                  <input id="janggo-stamp-upload-company" type="file" className="hidden" accept="image/*" onChange={handleStampUpload} />
                 </label>
               </div>
             )}
