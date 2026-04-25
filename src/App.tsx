@@ -45,6 +45,8 @@ export default function App() {
     subject5: '', day5: '', time5: '',
     hourlyRate: '',
     paymentDay: '',
+    bankAccount1: '하나은행, 최유정(장고교육개발원) 계좌번호 : 621 - 910510 - 28907',
+    bankAccount2: '농협은행, 최유정(장고교육개발원) 계좌번호 : 302 - 1757 - 7312 - 41',
     contractYear: new Date().getFullYear().toString().slice(2, 4),
     contractMonth: (new Date().getMonth() + 1).toString().padStart(2, '0'),
     contractDay: new Date().getDate().toString().padStart(2, '0'),

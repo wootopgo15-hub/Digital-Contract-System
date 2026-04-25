@@ -29,6 +29,8 @@ export interface CompanyContractData {
   
   hourlyRate: string;
   paymentDay: string;
+  bankAccount1: string;
+  bankAccount2: string;
   
   contractYear: string;
   contractMonth: string;

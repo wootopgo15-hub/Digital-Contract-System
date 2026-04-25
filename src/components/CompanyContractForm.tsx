@@ -287,6 +287,14 @@ export default function CompanyContractForm({ data, onChange }: Props) {
                 <span className="ml-2 text-sm text-gray-600">일</span>
               </div>
             </div>
+            <div className="col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">계좌번호 1</label>
+              <input type="text" name="bankAccount1" value={data.bankAccount1} onChange={handleChange} className="block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2.5" />
+            </div>
+            <div className="col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">계좌번호 2</label>
+              <input type="text" name="bankAccount2" value={data.bankAccount2} onChange={handleChange} className="block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2.5" />
+            </div>
           </div>
         </section>
 
@@ -321,14 +329,14 @@ export default function CompanyContractForm({ data, onChange }: Props) {
           <div className="pt-2 border-t border-gray-100">
             <label className="block text-sm font-medium text-gray-700 mb-2">선택사항: 스캔본이나 기관장 명판/도장 이미지 업로드</label>
             <div className="flex items-center justify-center w-full">
-              <label htmlFor="company-stamp-upload" className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-blue-50 hover:bg-blue-100 border-blue-200 transition-colors">
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+              <div className="relative flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-blue-50 hover:bg-blue-100 border-blue-200 transition-colors overflow-hidden">
+                <input id="company-stamp-upload" type="file" className="absolute inset-0 z-50 w-full h-full opacity-0 cursor-pointer" accept="image/*" onChange={handleCompanyStampUpload} />
+                <div className="flex flex-col items-center justify-center pt-5 pb-6 pointer-events-none">
                   <Upload className="w-8 h-8 mb-3 text-blue-400" />
                   <p className="mb-2 text-sm text-blue-600 font-semibold">클릭하여 이미지 업로드</p>
                   <p className="text-xs text-blue-400">PNG, JPG (MAX. 2MB)</p>
                 </div>
-                <input id="company-stamp-upload" type="file" className="hidden" accept="image/*" onChange={handleCompanyStampUpload} />
-              </label>
+              </div>
             </div>
             
             {data.companySignature && (
@@ -383,14 +391,14 @@ export default function CompanyContractForm({ data, onChange }: Props) {
               </div>
             ) : (
               <div className="flex items-center justify-center w-full">
-                <label htmlFor="janggo-stamp-upload-company" className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
-                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                <div className="relative flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 overflow-hidden">
+                  <input id="janggo-stamp-upload-company" type="file" className="absolute inset-0 z-50 w-full h-full opacity-0 cursor-pointer" accept="image/*" onChange={handleStampUpload} />
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6 pointer-events-none">
                     <Upload className="w-8 h-8 mb-3 text-gray-400" />
                     <p className="mb-2 text-sm text-gray-500 font-semibold">클릭하여 이미지 업로드</p>
                     <p className="text-xs text-gray-500">PNG, JPG (MAX. 2MB)</p>
                   </div>
-                  <input id="janggo-stamp-upload-company" type="file" className="hidden" accept="image/*" onChange={handleStampUpload} />
-                </label>
+                </div>
               </div>
             )}
           </div>

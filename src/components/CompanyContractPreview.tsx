@@ -103,8 +103,8 @@ export default function CompanyContractPreview({ data }: { data: CompanyContract
               <p className="break-keep">5. “갑”은 상기의 가산금을 공단으로 수령하는 즉시 “을”에게 아래의 계좌로 지급한다.</p>
               <div className="pl-4 space-y-1">
                 <p>- 매 월 {highlight(data.paymentDay, "일")}일</p>
-                <p>- 하나은행, 최유정(장고교육개발원) 계좌번호 : 621 - 910510 - 28907</p>
-                <p>- 농협은행, 최유정(장고교육개발원) 계좌번호 : 302 - 1757 - 7312 - 41</p>
+                {data.bankAccount1 && <p>- {data.bankAccount1}</p>}
+                {data.bankAccount2 && <p>- {data.bankAccount2}</p>}
               </div>
             </div>
           </section>
